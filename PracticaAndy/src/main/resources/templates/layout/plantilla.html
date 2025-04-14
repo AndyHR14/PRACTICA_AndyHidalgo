@@ -25,15 +25,14 @@
         <li class="nav-item">
           <a class="nav-link" th:href="@{/libro/listado}">Libros</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Más opciones
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Prestamos</a></li>
-            <li><a class="dropdown-item" href="#">Devoluciones</a></li>
-            <li><a class="dropdown-item" href="#">Usuarios</a></li>
-          </ul>
+          <li class="nav-item">
+          <a class="nav-link" th:href="@{/prestamo/listado}">Prestamos</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link" th:href="@{/devolucion/listado}">Devoluciones</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link" th:href="@{/usuario/listado}">Usuarios</a>
         </li>
       </ul>
     </div>
