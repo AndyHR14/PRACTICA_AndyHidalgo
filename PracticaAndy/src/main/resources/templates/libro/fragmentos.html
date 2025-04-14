@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>PracticaAndy</title>
+        <meta charset="UTF-8"/> 
+    </head>
     <body>
         <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
         <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
@@ -9,6 +13,7 @@
                     <div class="col-md-3">   
                         <button 
                             type="button" 
+                            sec:authorize="hasRole('ROLE_ADMIN')"
                             class="btn btn-primary btn-block" 
                             data-bs-toggle="modal" 
                             data-bs-target="#agregarLibro">
@@ -109,6 +114,7 @@
                                             <th class="text-center">Existencias</th>
                                             <th class="text-center">Activo</th>
                                             <th class="text-center">Categoria</th>
+                                            <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                                             <th></th><th></th></tr>
                                     </thead>
                                     <tbody>
@@ -121,7 +127,7 @@
                                             <td class="text-center">[[${libro.existencias}]]</td>
                                             <td  class="text-center" th:text="${libro.activo} ? 'Activa' : 'Inactiva'" />
                                             <td>[[${libro.categoria.descripcion}]]</td>
-                                            <td>
+                                            <td sec:authorize="hasRole('ROLE_ADMIN')">
                                             <a th:href="@{/libro/eliminar/}+${libro.idLibro}"
                                                    class="btn btn-danger">
                                                     <i class="fas fa-trash"></i> Eliminar </a>

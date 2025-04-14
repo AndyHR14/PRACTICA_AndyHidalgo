@@ -39,7 +39,7 @@ public class Usuario implements Serializable{
         private String nombre;
         private String apellidos;
         private String correo;
-        private String telefono;
+        private String fechaRegistro;
         private boolean activo;
         
         @OneToMany

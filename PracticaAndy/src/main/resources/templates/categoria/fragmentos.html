@@ -12,6 +12,7 @@
                     <div class="col-md-3">   
                         <button 
                             type="button" 
+                            sec:authorize="hasRole('ROLE_ADMIN')"
                             class="btn btn-primary btn-block" 
                             data-bs-toggle="modal" 
                             data-bs-target="#agregarCategoria">
@@ -73,6 +74,7 @@
                                             <th>Descripcion</th>
                                             <th>Activo</th>
                                             <th>Botones</th>
+                                            <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                                             <th></th></tr>
                                     </thead>
                                     <tbody>
@@ -80,7 +82,7 @@
                                             <td>[[${contador.count}]]</td>
                                             <td>[[${categoria.descripcion}]]</td>
                                             <td th:text="${categoria.activo} ? 'Activa' : 'Inactiva'" />
-                                            <td>
+                                            <td sec:authorize="hasRole('ROLE_ADMIN')">
                                             <a th:href="@{/categoria/eliminar/}+${categoria.idCategoria}"
                                                    class="btn btn-danger">
                                                     <i class="fas fa-trash"></i> Eliminar</a>
@@ -111,7 +113,6 @@
                           class="was-validated"                          
                           enctype="multipart/form-data">
                         <input type="hidden" name="idCategoria" th:field="*{idCategoria}"/>
-                        <input type="hidden" name="rutaImagen" th:field="*{rutaImagen}"/>
                         <section th:replace="~{categoria/fragmentos :: botonesEditar}"/>
                         <div id=details>
                             <div class="container">
@@ -155,7 +156,7 @@
                             <i class="fas fa-arrow-left"></i> regresar
                         </a>
                     </div>
-                    <div class="col-md-4 d-grid">                                
+                    <div class="col-md-4 d-grid"> 
                         <a th:href="@{/categoria/eliminar/}+${categoria.idCategoria}"
                            class="btn btn-danger">
                             <i class="fas fa-trash"></i> eliminar
