@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS biblioteca_db;
 drop user if exists usuario_prueba;
 CREATE DATABASE biblioteca_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-
 create user 'usuario_prueba'@'%' identified by 'Usuar1o_Clave.';
 
 /*Se asignan los prvilegios sobr ela base de datos TechShop al usuario creado */
@@ -18,7 +17,7 @@ CREATE TABLE role (
 
 INSERT INTO role (rol) VALUES 
 ('ADMIN'), 
-('BIBLIOTECARIO'), 
+('VENDEDOR'), 
 ('USUARIO');
 
 /* Tabla de usuarios */
@@ -41,12 +40,16 @@ CREATE TABLE rol (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- Asignación inicial (Admin por defecto)
+-- Asignación inicial (Las contraseñas son 123, 456, y 789)
 INSERT INTO usuario (username, password, nombre, apellidos, correo, activo) VALUES
-('admin', '$2a$10$xn3LI/AjqicFYZFruSwve.681477XaVNaUQbr1gioaWPn4t1KsnmG', 'Admin', 'Sistema', 'admin@biblioteca.com', TRUE);
+('andy', '$2a$12$9EfhFXIBSu0wlDnjmlpOAus4J3OIwiLpOQDdtN9ycf6nB2wX0M/nu', 'Andy', 'Hidalgo', 'admin@biblioteca.com', TRUE),
+('vend', '$2a$12$ofSrcbi.dHwX3gKXK6d6k.QN.fuOKUAKW.sBd5Uf7CQDH5Pw3e0BW', 'Vendedor', 'biblio', 'vendedor@biblioteca.com', TRUE),
+('user', '$2a$12$LEMHwZYKEcHpX3Ogk6F02.Pr51xIMKxu9jAVLJlV.NR.M2.uQMxD.', 'Usuario', 'biblio', 'usuario@biblioteca.com', TRUE);
 
 INSERT INTO rol (nombre, id_usuario) VALUES
-('ADMIN', 1);
+('ADMIN', 1), ('VENDEDOR', 1), ('USUARIO', 1),
+('VENDEDOR', 2), ('USUARIO', 2),
+('USUARIO', 3);
 
 /* Categorías */
 CREATE TABLE categoria (
@@ -57,18 +60,6 @@ CREATE TABLE categoria (
 
 INSERT INTO categoria (descripcion, activo) VALUES
 ('Novela', true), ('Poesía', true), ('Historia', true), ('Ciencia', true), ('Informática', true), ('Filosofía', true);
-
-/* Autores */
-CREATE TABLE autor (
-    id_autor INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    biografia TEXT,
-    fecha_nacimiento DATE,
-    nacionalidad VARCHAR(100),
-    activo BOOLEAN DEFAULT TRUE,
-    UNIQUE (nombre, apellidos)
-);
 
 /* Libros */
 CREATE TABLE libro (
@@ -83,15 +74,6 @@ CREATE TABLE libro (
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 
-/* Relación libros - autores */
-CREATE TABLE libro_autor (
-    id_libro INT NOT NULL,
-    id_autor INT NOT NULL,
-    PRIMARY KEY (id_libro, id_autor),
-    FOREIGN KEY (id_libro) REFERENCES libro(id_libro) ON DELETE CASCADE,
-    FOREIGN KEY (id_autor) REFERENCES autor(id_autor) ON DELETE CASCADE
-);
-
 /* Préstamos */
 CREATE TABLE prestamo (
     id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
@@ -104,77 +86,6 @@ CREATE TABLE prestamo (
     observaciones TEXT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_libro) REFERENCES libro(id_libro)
-);
-
-/* Tabla de rutas según roles (similar a techshop) */
-CREATE TABLE ruta (
-    id_ruta INT AUTO_INCREMENT PRIMARY KEY,
-    patron VARCHAR(255) NOT NULL,
-    rol_name VARCHAR(50) NOT NULL
-);
-
-INSERT INTO ruta (patron, rol_name) VALUES 
-('/libro/nuevo', 'ADMIN'),
-('/libro/guardar', 'ADMIN'),
-('/libro/modificar/**', 'ADMIN'),
-('/libro/eliminar', 'ADMIN'),
-('/prestamo/nuevo', 'BIBLIOTECARIO'),
-('/prestamo/listado', 'BIBLIOTECARIO'),
-('/libro/listado', 'BIBLIOTECARIO'),
-('/mis-prestamos', 'USUARIO'),
-('/catalogo', 'USUARIO');
-
-/* Rutas públicas */
-CREATE TABLE ruta_permit (
-    id_ruta INT AUTO_INCREMENT PRIMARY KEY,
-    patron VARCHAR(255) NOT NULL
-);
-
-INSERT INTO ruta_permit (patron) VALUES
-('/'),
-('/index'),
-('/registro'),
-('/js/'),
-('/css/'),
-('/images/');
-
-/* Mensajes de contacto */
-CREATE TABLE mensaje_contacto (
-    id_mensaje INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    correo VARCHAR(100) NOT NULL,
-    asunto VARCHAR(200) NOT NULL,
-    mensaje TEXT NOT NULL,
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    leido BOOLEAN DEFAULT FALSE
-);
-
-/* Información de biblioteca */
-CREATE TABLE info_biblioteca (
-    id_info INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    descripcion TEXT,
-    direccion VARCHAR(255),
-    telefono VARCHAR(20),
-    correo VARCHAR(100),
-    horario TEXT,
-    ruta_imagen VARCHAR(1024),
-    latitud DECIMAL(10, 8),
-    longitud DECIMAL(11, 8)
-);
-
-INSERT INTO info_biblioteca (nombre, descripcion, direccion, telefono, correo, horario)
-VALUES ('Biblioteca Central', 'Biblioteca pública con amplia colección de libros y recursos digitales', 
-'Calle Principal 123, Ciudad', '123-456-7890', 'info@biblioteca.com', 'Lunes a Viernes: 9:00 - 20:00\nSábados: 10:00 - 14:00\nDomingos: Cerrado');
-
-/* Noticias */
-CREATE TABLE noticia (
-    id_noticia INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(255) NOT NULL,
-    contenido TEXT NOT NULL,
-    fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    ruta_imagen VARCHAR(1024),
-    publicado BOOLEAN DEFAULT TRUE
 );
 
 INSERT INTO libro (titulo, precio, editorial, idioma, existencias, id_categoria) VALUES
