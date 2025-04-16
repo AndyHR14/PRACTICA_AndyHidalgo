@@ -18,7 +18,7 @@ CREATE TABLE role (
 
 INSERT INTO role (rol) VALUES 
 ('ADMIN'), 
-('VENDEDOR'), 
+('BIBLIOTECARIO'), 
 ('USUARIO');
 
 /* Tabla de usuarios */
@@ -43,14 +43,10 @@ CREATE TABLE rol (
 
 -- Asignación inicial (Admin por defecto)
 INSERT INTO usuario (username, password, nombre, apellidos, correo, activo) VALUES
-('andy', '$2a$12$9EfhFXIBSu0wlDnjmlpOAus4J3OIwiLpOQDdtN9ycf6nB2wX0M/nu', 'Andy', 'Hidalgo', 'admin@biblioteca.com', TRUE),
-('vend', '$2a$12$ofSrcbi.dHwX3gKXK6d6k.QN.fuOKUAKW.sBd5Uf7CQDH5Pw3e0BW', 'Vendedor', 'biblio', 'vendedor@biblioteca.com', TRUE),
-('user', '$2a$12$LEMHwZYKEcHpX3Ogk6F02.Pr51xIMKxu9jAVLJlV.NR.M2.uQMxD.', 'Usuario', 'biblio', 'usuario@biblioteca.com', TRUE);
+('admin', '$2a$10$xn3LI/AjqicFYZFruSwve.681477XaVNaUQbr1gioaWPn4t1KsnmG', 'Admin', 'Sistema', 'admin@biblioteca.com', TRUE);
 
 INSERT INTO rol (nombre, id_usuario) VALUES
-('ADMIN', 1), ('VENDEDOR', 1), ('USUARIO', 1),
-('VENDEDOR', 2), ('USUARIO', 2),
-('USUARIO', 3);
+('ADMIN', 1);
 
 /* Categorías */
 CREATE TABLE categoria (
