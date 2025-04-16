@@ -12,7 +12,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header bg-success"><h2>Login</h2></div>
+                        <div class="card-header" style="color: blueviolet"><h2>Login</h2></div>
                         <div class="card-body">
                             <form method="POST" th:action="@{/login}">
                                 <div class="form-group row my-3">
@@ -28,11 +28,11 @@
                                     </div>
                                 </div>
                                 <div class="card-footer col text-center">
-                                    <button class="btn btn-primary" >
+                                    <button class="btn" style="color: darkorchid">
                                         <a th:href="@{/registro/nuevo}" class="btn"><i class="fas fa-user-plus"></i> Registrar </a></button>
-                                    <button class="btn btn-info" >                                        
+                                    <button class="btn"  style="color: darkorchid">                                        
                                         <a th:href="@{/registro/recordar}" class="btn"><i class="fas fa-envelope"></i> Recordar </a></button>
-                                    <button class="btn btn-success" type="submit">
+                                    <button class="btn"  style="color: darkorchid" type="submit">
                                         <span class="btn"><i class="fas fa-sign-in-alt"></i>
                                             Iniciar Sesión</span></button>
                                 </div>
